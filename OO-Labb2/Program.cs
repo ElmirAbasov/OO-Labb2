@@ -9,3 +9,4 @@ orderService.Process(new Order
     Priority = Priority.High,
     StreetAdress = "Some adress"
 });
+

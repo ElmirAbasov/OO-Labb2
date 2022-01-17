@@ -8,9 +8,9 @@ namespace OO_Labb2
 {
     public enum Priority
     {
-        Low,
-        Medium,
-        High,
-        SuperHigh, // To be implemented in the future
+        Low = 4,
+        Medium = 3,
+        High = 2,
+        SuperHigh = 1
     }
 }
