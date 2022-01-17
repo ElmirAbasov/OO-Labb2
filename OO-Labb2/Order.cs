@@ -11,6 +11,6 @@ namespace OO_Labb2
         public int ID { get; set; }
         public Priority Priority { get; set; }
         public string StreetAdress { get; set; }
-        public string Email { get; set; }
+        public string Reciever { get; set; }
     }
 }

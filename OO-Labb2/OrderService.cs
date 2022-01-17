@@ -6,77 +6,33 @@ using System.Threading.Tasks;
 
 namespace OO_Labb2
 {
+    
     public class OrderService
     {
+        private IConsoleLogger _consoleLogger;
+        private IMessageService _messageService;
+        public OrderService(IConsoleLogger consoleLogger, IMessageService messageService)
+        {
+            this._consoleLogger = consoleLogger;
+            this._messageService = messageService;
+        }
+
         public void Process(Order order)
         {
-            Log($"Started processing order {order.ID}");
+            int priority = ProcessPriority(order.Priority);
 
-            switch (order.Priority)
-            {
-                case Priority.Low:
-                    int low = ProcessLowPriority(order);
-                    SendEmail(
-                        order.Email,
-                        "Your order has been shipped",
-                        $"Your order with ID {order.ID} is expected to arrive within {low}", order.ID
-                        );
-                    Log($"Finished processing order with order {order.ID}");
-                    break;
-                case Priority.Medium:
-                    int medium = ProcessMediumPriority(order);
-                    SendEmail(
-                        order.Email,
-                        "Your order has been shipped",
-                        $"Your order with ID {order.ID} is expected to arrive within {medium}", order.ID
-                        );
-                    Log($"Finished processing order with order {order.ID}");
-                    break;
-                case Priority.High:
-                    int high = ProcessHighPriority(order);
-                    SendEmail(
-                        order.Email,
-                        "Your order has been shipped",
-                        $"Your order with ID {order.ID} is expected to arrive within {high}", order.ID
-                        );
-                    Log($"Finished processing order with order {order.ID}");
-                    break;
-                default:
-                    break;
-            }
+            _consoleLogger.Log($"Started processing order {order.ID}");
+            _messageService.Send(order, "Your order has been shipped", $"Your order with ID {order.ID} is expected to arrive within {priority} days.");
+            _consoleLogger.Log($"Finished processing order with order {order.ID}");
+            _consoleLogger.Log("");
         }
 
-        private void Log(string message)
+        public int ProcessPriority(Priority priority)
         {
-            // Some logging logic. 
-            // We output it now to the console just to see what is happening. In reality we could choose multiple ways to log, like
-            // text file, event log, database or external framework.
-            Console.WriteLine(message);
-        }
-
-        private int ProcessLowPriority(Order order)
-        {
-            // Some low speed priority logic we don't care about
-            return 6;
-        }
-
-        private int ProcessMediumPriority(Order order)
-        {
-            // Some medium speed priority logic we don't care about
-            return 3;
-        }
-
-        private int ProcessHighPriority(Order order)
-        {
-            // Some high speed priority logic we don't care about
-            return 1;
-        }
-
-        private void SendEmail(string recipient, string subject, string message, int orderID)
-        {
-            // Some email sending logic we don't care about
-            Log($"Email sent to {recipient} about order {orderID}");
+            // Some priority logic we don't care about
+            return Convert.ToInt32(priority);
         }
 
     }
+
 }
